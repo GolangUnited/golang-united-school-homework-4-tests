@@ -4,8 +4,6 @@ import (
 	"errors"
 	"strconv"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestStringSum(t *testing.T) {
@@ -33,14 +31,25 @@ func TestStringSum(t *testing.T) {
 			if tt.expErr != nil {
 				if tt.numError {
 					e := errors.Unwrap(err)
-					assert.Equal(t, tt.expErr, e)
-					assert.ErrorAs(t, err, &tt.expErr)
+					if e != tt.expErr {
+						t.Errorf("%s:\n wrong error is wrapped into the returned error: got %s, want %s", name, e.Error(), tt.expErr.Error())
+					}
+					if !errors.As(err, &tt.expErr) {
+						t.Errorf("%s:\n wrong error type is used in the return: got %T, want %T", name, err, tt.expErr)
+					}
+
 				} else {
-					assert.ErrorIs(t, err, tt.expErr)
-					assert.NotEqual(t, tt.expErr, err)
+					if err == tt.expErr {
+						t.Errorf("%s:\n returned error must be wrapped", name)
+					}
+					if !errors.Is(err, tt.expErr) {
+						t.Errorf("%s:\n wrong error is used in the return: got %s, want %s", name, err.Error(), tt.expErr.Error())
+					}
 				}
 			}
-			assert.Equal(t, tt.output, output)
+			if output != tt.output {
+				t.Errorf("error in the sum output: got %s, want %s", output, tt.output)
+			}
 		})
 	}
 }
