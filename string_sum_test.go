@@ -2,6 +2,7 @@ package string_sum
 
 import (
 	"errors"
+	"reflect"
 	"strconv"
 	"testing"
 )
@@ -31,7 +32,7 @@ func TestStringSum(t *testing.T) {
 			if tt.expErr != nil {
 				if tt.numError {
 					e := errors.Unwrap(err)
-					if e != tt.expErr {
+					if !reflect.DeepEqual(e, tt.expErr) {
 						t.Errorf("%s:\n wrong error is wrapped into the returned error: got %s, want %s", name, e.Error(), tt.expErr.Error())
 					}
 					if !errors.As(err, &tt.expErr) {
