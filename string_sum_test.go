@@ -48,6 +48,10 @@ func TestStringSum(t *testing.T) {
 					}
 				}
 			}
+			if err != nil {
+				t.Errorf("error should be nil: got %s", err)
+			}
+
 			if output != tt.output {
 				t.Errorf("error in the sum output: got %s, want %s", output, tt.output)
 			}
