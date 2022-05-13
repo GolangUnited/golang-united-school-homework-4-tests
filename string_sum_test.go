@@ -33,7 +33,7 @@ func TestStringSum(t *testing.T) {
 				if tt.numError {
 					e := errors.Unwrap(err)
 					if !reflect.DeepEqual(e, tt.expErr) {
-						t.Errorf("%s:\n wrong error is wrapped into the returned error: got %s, want %s", name, e.Error(), tt.expErr.Error())
+						t.Errorf("%s:\n wrong error is wrapped into the returned error: got %s, want %s", name, e, tt.expErr)
 					}
 					if !errors.As(err, &tt.expErr) {
 						t.Errorf("%s:\n wrong error type is used in the return: got %T, want %T", name, err, tt.expErr)
