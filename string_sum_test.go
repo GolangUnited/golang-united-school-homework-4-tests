@@ -47,9 +47,10 @@ func TestStringSum(t *testing.T) {
 						t.Errorf("%s:\n wrong error is used in the return: got %s, want %s", name, err.Error(), tt.expErr.Error())
 					}
 				}
-			}
-			if err != nil {
-				t.Errorf("error should be nil: got %s", err)
+			} else {
+				if err != nil {
+					t.Errorf("error should be nil: got %s", err)
+				}
 			}
 
 			if output != tt.output {
