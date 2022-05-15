@@ -32,8 +32,8 @@ func TestStringSum(t *testing.T) {
 			if tt.expErr != nil {
 				if tt.numError {
 					e := errors.Unwrap(err)
-					if !reflect.DeepEqual(e, tt.expErr) {
-						t.Errorf("%s:\n wrong error is wrapped into the returned error: got %s, want %s", name, e, tt.expErr)
+					if numerr, ok := e.(*strconv.NumError); !ok {
+						t.Errorf("%s:\n wrong type of error is wrapped into the returned error: got %s, want %s", name, reflect.TypeOf(e), reflect.TypeOf(numerr))
 					}
 					if !errors.As(err, &tt.expErr) {
 						t.Errorf("%s:\n wrong error type is used in the return: got %T, want %T", name, err, tt.expErr)
